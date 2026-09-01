@@ -49,6 +49,7 @@ export default function Home() {
         .filter((item) => item.quantity > 0)
     );
   };
+
   const groupedCart = cart.reduce((groups, item) => {
     if (!groups[item.store_name]) {
       groups[item.store_name] = [];
@@ -59,8 +60,18 @@ export default function Home() {
     return groups;
   }, {} as Record<string, CartItem[]>);
 
+  const totalItems = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const totalPrice = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-6">
+    <main className="min-h-screen bg-gray-50 px-4 py-6 pb-28">
       <div className="mx-auto max-w-md">
         <h1 className="mb-6 text-2xl font-bold">
           Store Catalog
@@ -166,6 +177,27 @@ export default function Home() {
           )}
         </div>
       </div>
+
+      {cart.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 border-t bg-white p-4 shadow-lg">
+          <div className="mx-auto flex max-w-md items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-gray-500">
+                {totalItems}{" "}
+                {totalItems === 1 ? "item" : "items"}
+              </p>
+
+              <p className="text-lg font-bold">
+                ₹{totalPrice}
+              </p>
+            </div>
+
+            <button className="rounded-lg bg-black px-6 py-3 font-medium text-white">
+              View Cart
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
