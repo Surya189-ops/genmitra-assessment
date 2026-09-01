@@ -1,5 +1,55 @@
-import { products } from "../data/products";
+"use client";
+
+import { useState } from "react";
+import { products } from "@/data/products";
+
+type CartItem = (typeof products)[number] & {
+  quantity: number;
+};
+
 export default function Home() {
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  const addToCart = (product: (typeof products)[number]) => {
+    setCart((prev) => {
+      const existingProduct = prev.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingProduct) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
+
+  const increaseQuantity = (productId: string) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (productId: string) => {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-6">
       <div className="mx-auto max-w-md">
@@ -38,8 +88,50 @@ export default function Home() {
                   </p>
                 </div>
 
-                <button className="rounded-lg bg-black px-5 py-2 text-sm font-medium text-white">
+                <button
+                  onClick={() => addToCart(product)}
+                  className="rounded-lg bg-black px-5 py-2 text-sm font-medium text-white"
+                >
                   Add
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 space-y-3">
+          {cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center justify-between rounded-lg bg-white p-3 shadow-sm"
+            >
+              <div>
+                <p className="font-medium">
+                  {item.name}
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  {item.store_name}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => decreaseQuantity(item.id)}
+                  className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
+                >
+                  -
+                </button>
+
+                <span className="font-medium">
+                  {item.quantity}
+                </span>
+
+                <button
+                  onClick={() => increaseQuantity(item.id)}
+                  className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
+                >
+                  +
                 </button>
               </div>
             </div>
