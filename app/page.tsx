@@ -49,6 +49,15 @@ export default function Home() {
         .filter((item) => item.quantity > 0)
     );
   };
+  const groupedCart = cart.reduce((groups, item) => {
+    if (!groups[item.store_name]) {
+      groups[item.store_name] = [];
+    }
+
+    groups[item.store_name].push(item);
+
+    return groups;
+  }, {} as Record<string, CartItem[]>);
 
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-6">
@@ -99,43 +108,62 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="mt-6 space-y-3">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between rounded-lg bg-white p-3 shadow-sm"
-            >
-              <div>
-                <p className="font-medium">
-                  {item.name}
-                </p>
+        <div className="mt-6 space-y-6">
+          {Object.entries(groupedCart).map(
+            ([storeName, storeItems]) => (
+              <div
+                key={storeName}
+                className="rounded-xl bg-white p-4 shadow-sm"
+              >
+                <h2 className="mb-4 text-lg font-semibold">
+                  {storeName}
+                </h2>
 
-                <p className="text-sm text-gray-500">
-                  {item.store_name}
-                </p>
+                <div className="space-y-4">
+                  {storeItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between"
+                    >
+                      <div>
+                        <p className="font-medium">
+                          {item.name}
+                        </p>
+
+                        <p className="text-sm text-gray-500">
+                          ₹{item.price} · {item.unit}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() =>
+                            decreaseQuantity(item.id)
+                          }
+                          className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
+                        >
+                          -
+                        </button>
+
+                        <span className="font-medium">
+                          {item.quantity}
+                        </span>
+
+                        <button
+                          onClick={() =>
+                            increaseQuantity(item.id)
+                          }
+                          className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => decreaseQuantity(item.id)}
-                  className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
-                >
-                  -
-                </button>
-
-                <span className="font-medium">
-                  {item.quantity}
-                </span>
-
-                <button
-                  onClick={() => increaseQuantity(item.id)}
-                  className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-200"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
     </main>
