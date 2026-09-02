@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GenMitra Assessment
 
-## Getting Started
+This is my submission for the Frontend Developer Intern technical assessment at GenMitra Technologies.
 
-First, run the development server:
+The project is a simple multi-vendor shopping page where users can add products from different stores to one cart.
+
+## What I built
+
+- Product listing with the given mock data
+- Add products to cart
+- Increase/decrease quantity
+- Remove items from the cart
+- Products from different stores can be added to the same cart
+- Cart items are grouped by store
+- Total items and price update automatically
+- Sticky cart bar at the bottom
+- Separate cart view
+- Cart is saved in localStorage, so it stays after refreshing the page
+- Mobile-friendly layout
+
+## Tech used
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Run the project
+
+Clone the repository and install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/Surya189-ops/genmitra-assessment.git
+cd genmitra-assessment
+npm install
